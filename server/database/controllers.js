@@ -5,6 +5,7 @@ var jwt = require('jwt-simple');
 module.exports = {
   users: {
      signin: function (request, callback) {
+      console.log("request", request.body)
       db('users')
       .whereRaw('LOWER(username) LIKE ?', '%'+request.body.username.toLowerCase()+'%').
       andWhere({
@@ -12,6 +13,7 @@ module.exports = {
       })
       .select()
       .then(function (res) {
+        console.log("result", res)
         var user = res[0].username;
         var token = jwt.encode(user, 'secret');
         res[0].token = token;
